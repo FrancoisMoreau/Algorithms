@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/brayden/Algorithms/Percolation/Percolation.h
+vector
+-
+string
+-
+iostream
+-
+
+/Users/brayden/Algorithms/Percolation/PercolationStates.cpp
+PercolationStates.h
+/Users/brayden/Algorithms/Percolation/PercolationStates.h
+random
+-
+fstream
+-
+string
+-
+
+/Users/brayden/Algorithms/Percolation/PercolationStates.h
+Percolation.h
+/Users/brayden/Algorithms/Percolation/Percolation.h
+
