@@ -78,9 +78,9 @@ void Percolation::connect_neighbors(int row, int col) {
         connect_site(row - 1, col, row, col);
     if (col > 1 && isOpen(row, col - 1))
         connect_site(row, col - 1, row, col);
-    if (row < N && isOpen(row + 1, col))
+    if (row < N - 1 && isOpen(row + 1, col))
         connect_site(row + 1, col, row, col);
-    if (col < N && isOpen(row, col + 1))
+    if (col < N - 1 && isOpen(row, col + 1))
         connect_site(row, col + 1, row, col);
 }
 

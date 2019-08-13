@@ -21,8 +21,6 @@ PercolationStates::PercolationStates(int n, int trials):
         printf("Trial %d: \n", i);
         Percolation test(n);
         vector<vector<int>> random_points;
-        printf("came here\n");
-        fflush(stdout);
         while (!test.percolates()) {
             int row = get_random(gride_size);
             int col = get_random(gride_size);
@@ -32,8 +30,6 @@ PercolationStates::PercolationStates(int n, int trials):
             }
 //            printf("State point: (%d, %d), status: %d\n", row, col, test.percolates());
         }
-        printf("came here2\n");
-        fflush(stdout);
         double opensite_ratio = test.numberOfOpenSites() * 1.f / (gride_size * gride_size);
         printf("Percolates! open sites number: %f\n", opensite_ratio);
         trial_opensites_num[i] = opensite_ratio;

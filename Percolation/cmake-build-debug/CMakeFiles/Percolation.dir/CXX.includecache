@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/Users/brayden/Algorithms/Percolation/Percolation.cpp
+Percolation.h
+/Users/brayden/Algorithms/Percolation/Percolation.h
+
 /Users/brayden/Algorithms/Percolation/Percolation.h
 vector
 -
@@ -27,4 +31,12 @@ string
 /Users/brayden/Algorithms/Percolation/PercolationStates.h
 Percolation.h
 /Users/brayden/Algorithms/Percolation/Percolation.h
+
+/Users/brayden/Algorithms/Percolation/main.cpp
+iostream
+-
+fstream
+-
+PercolationStates.h
+/Users/brayden/Algorithms/Percolation/PercolationStates.h
 
