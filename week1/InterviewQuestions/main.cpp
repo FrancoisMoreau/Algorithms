@@ -8,7 +8,7 @@ using std::cout;
 using std::endl;
 
 int main() {
-    std::ifstream input("/Users/brayden/Algorithms/week1/InterviewQuestions/timestamp.txt");
+    std::ifstream input("../timestamp.txt");
     int person;
     input >> person;
     SocialNetCon relation(person);
@@ -26,7 +26,7 @@ int main() {
 
     printf("\n---------------------------------\n"
            "Union-find with specific canonical element: \n");
-    std::ifstream can_input("/Users/brayden/Algorithms/week1/InterviewQuestions/canonical.txt");
+    std::ifstream can_input("../canonical.txt");
     int data;
     can_input >> data;
     UFCanonical ufbig(data);

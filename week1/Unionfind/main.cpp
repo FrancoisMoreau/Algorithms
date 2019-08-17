@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 
 int main() {
-    ifstream input("/Users/brayden/Algorithms/Unionfind/tinyUF.txt");
+    ifstream input("../tinyUF.txt");
     int N = 0, p = 0, q = 0;
     input >> N;
 
