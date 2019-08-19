@@ -12,6 +12,25 @@ using std::vector;
 using std::cout;
 using std::endl;
 
+int evaluate(const std::string &str) {
+    VectorStack<char> ops;
+    VectorStack<int> val;
+    for (auto &i : str) {
+        if (i == '(' || i == ' ') {}
+        else if (i == '+') ops.push(i);
+        else if (i == '*') ops.push(i);
+        else if (i == ')') {
+            char op = ops.pop();
+            if (op == '+') val.push(val.pop() + val.pop());
+            else if (op == '*') val.push(val.pop() * val.pop());
+        } else {
+            val.push(atoi(&i));
+        }
+    }
+    return val.pop();
+}
+
+
 int main() {
     Blob<int> ia = {0, 1, 2, 3, 4};
     printf("ia : %d\n", ia[0]);
@@ -32,35 +51,36 @@ int main() {
     ends = clock();
     cout <<"Standard Vec Running Time : "<<(double)(ends - start)/ CLOCKS_PER_SEC << endl;
 
-    LinkedStack<std::string> lkstack;
-    lkstack.push("my");
-    lkstack.push("name");
-    lkstack.push("is");
-    lkstack.push("who?");
-    while (!lkstack.isEmpty()) {
-        cout << lkstack.pop() << " ";
-    }
-    cout << "\n";
-
+//    LinkedStack<std::string> lkstack;
+//    lkstack.push("my");
+//    lkstack.push("name");
+//    lkstack.push("is");
+//    lkstack.push("who?");
+//    while (!lkstack.isEmpty()) {
+//        cout << lkstack.pop() << " ";
+//    }
+//    cout << "\n";
+//
     VectorStack<std::string> vecstack;
     vecstack.push("my");
     vecstack.push("name");
     vecstack.push("who");
     while (!vecstack.IsEmpty()) {
-        cout << vecstack.top() << " ";
-        vecstack.pop();
+        cout << vecstack.pop() << " ";
     }
     cout << "\n";
+//
+//
+//    LinkedQueue<std::string> lkqueue;
+//    lkqueue.enqueue("my");
+//    lkqueue.enqueue("name");
+//    lkqueue.enqueue("who");
+//    while (!lkqueue.isEmpty()) {
+//        cout << lkqueue.dequeue() << " ";
+//    }
+//    cout << "\n";
 
-
-    LinkedQueue<std::string> lkqueue;
-    lkqueue.enqueue("my");
-    lkqueue.enqueue("name");
-    lkqueue.enqueue("who");
-    while (!lkqueue.isEmpty()) {
-        cout << lkqueue.dequeue() << " ";
-    }
-    cout << "\n";
+    cout << "res: " << evaluate("(1 + ((2 + 3) * (4 * 5)))") << endl;
 
 
 

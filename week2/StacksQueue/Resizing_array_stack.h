@@ -6,6 +6,7 @@
 #define STACKSQUEUE_RESIZING_ARRAY_STACK_H
 
 #include <vector>
+#include <stdexcept>
 
 template <typename T>
 class VectorStack {
@@ -14,14 +15,19 @@ private:
     std::vector<T> rest;
     bool empty = true;
 public:
-    void pop() {
+    T pop() {
+        if (empty)
+            throw std::out_of_range("pop on empty stack");
+        T rtn = _top;
         if (rest.empty()) {
             empty = true;
             _top = T();
         } else {
+            rtn = _top;
             _top = rest.back();
             rest.pop_back();
         }
+        return rtn;
     }
 
     void push(const T &t) {

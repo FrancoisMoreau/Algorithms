@@ -23,6 +23,8 @@ stdexcept
 /Users/brayden/Algorithms/week2/StacksQueue/Resizing_array_stack.h
 vector
 -
+stdexcept
+-
 
 /Users/brayden/Algorithms/week2/StacksQueue/SmallVec.h
 memory
