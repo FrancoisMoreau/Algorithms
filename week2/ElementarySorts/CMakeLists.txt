@@ -3,4 +3,9 @@ project(ElementarySorts)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ElementarySorts main.cpp SelectionSort.h InsertionSort.h ShellSort.h)
+FIND_PACKAGE(OpenCV REQUIRED)
+INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
+
+add_executable(ElementarySorts main.cpp ConvexHull.cpp ConvexHull.h)
+
+target_link_libraries(ElementarySorts ${OpenCV_LIBS})
