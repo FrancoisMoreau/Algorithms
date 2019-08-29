@@ -7,21 +7,23 @@
 using std::vector;
 using std::cout;
 
+const int Arr_Len = 20;
+
 int main() {
     vector<Point2D> plhs, prhs;
-    for (int i = 0; i < 10; ++i) {
-        plhs.emplace_back(i/2, i/ 2);
-        prhs.emplace_back((i + 1)/ 2, (i + 1) / 2);
+    for (int i = 0; i < Arr_Len; ++i) {
+        plhs.emplace_back(i/2, i);
+        prhs.emplace_back((i + 1)/ 2, i );
     }
 
     IntersectionTwoSets insect;
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < Arr_Len; ++i) {
         insect.push_back(plhs[i]);
-//        insect.push_back(prhs[i]);
+        insect.push_back(prhs[i]);
     }
 
-    cout << "Set size: " << insect.size() << "\n";
-
+    cout << "Array a/b contains " << Arr_Len << " elements each, where "
+         << 2 * Arr_Len - insect.size() << " are the same.\n";
 
 
 

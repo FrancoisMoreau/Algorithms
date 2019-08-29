@@ -7,11 +7,10 @@
 
 #include <set>
 
-
 struct Point2D {
     int x;
     int y;
-    Point2D(int x, int y) : x(x), y(0) {}
+    Point2D(int x, int y) : x(x), y(y) {}
 };
 
 bool comparePoints(const Point2D &lhs, const Point2D &rhs);
@@ -23,9 +22,11 @@ public:
     size_t size() { return pset.size(); }
 
 private:
-    std::multiset<Point2D, decltype(comparePoints)*> pset;
+    std::set<Point2D, decltype(comparePoints)*> pset{comparePoints};
 
 };
+
+//Attention here: the member initialization
 
 
 
