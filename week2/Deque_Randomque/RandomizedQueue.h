@@ -21,7 +21,7 @@ template <typename T>
 class RandomizedQueue {
 public:
     RandomizedQueue() : first(nullptr), first_free(nullptr), cap(nullptr) { }
-    bool isEmpty() const { return capacity() == 0; }
+    bool isEmpty() const { return !size(); }
     int size() const { return first_free - first;}
     int capacity() const { return cap - first; }
     void enque(const T &);
@@ -64,7 +64,7 @@ void RandomizedQueue<T>::alloc_n_move(size_t new_cap) {
         alloc.construct(dest++, std::move(*first_val_inc++));
     free();
     first = new_data;
-    first_free = first_val_inc;
+    first_free = dest;
     cap = first + new_cap;
 }
 
