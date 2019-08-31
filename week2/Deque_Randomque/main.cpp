@@ -1,6 +1,7 @@
 #include <iostream>
 #include "MyDeque.h"
 #include "RandomizedQueue.h"
+#include "SimpleRandomizedQue.h"
 
 using std::cout;
 using std::endl;
@@ -23,6 +24,15 @@ int main() {
     }
     for (int i = 0; i < 10; ++i) {
         cout << rdnq.dequeue() << " ";
+    }
+
+    cout << "\n\nVector Realized Randomized Queue: \n";
+    SimpleRandomizedQueue<int> srq;
+    for (int i = 0; i < 10; ++i) {
+        srq.enque(i);
+    }
+    for (int i = 0; i < 10; ++i) {
+        cout << srq.dequeue() << " ";
     }
 
     return 0;
