@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MyDeque.h"
+#include "RandomizedQueue.h"
 
 using std::cout;
 using std::endl;
@@ -15,7 +16,14 @@ int main() {
         cout << mydq.removeLast() << " ";
     }
 
-
+    cout << "\n\nRandomized Queue: \n";
+    RandomizedQueue<int> rdnq;
+    for (int i = 0; i < 10; ++i) {
+        rdnq.enque(i);
+    }
+    for (int i = 0; i < 10; ++i) {
+        cout << rdnq.dequeue() << " ";
+    }
 
     return 0;
 }

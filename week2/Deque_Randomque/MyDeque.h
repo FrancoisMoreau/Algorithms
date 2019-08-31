@@ -8,10 +8,16 @@
 #include <memory>
 
 template <typename T>
+class MyDequePtr;
+
+
+template <typename T>
 class MyDeque {
+    friend class MyDequePtr<T>;
 private:
     struct Node {
         T val;
+        std::shared_ptr<Node> prev;
         std::shared_ptr<Node> next;
         Node(const T &val) : val(val) {}
     };
@@ -37,8 +43,10 @@ void MyDeque<T>::addFirst(const T &val) {
     first = std::shared_ptr<Node>(new Node(val));
     if (isEmpty())
         last = first;
-    else
+    else {
         first->next = old_first;
+        old_first->prev = first;
+    }
     ++qsize;
 }
 
@@ -48,8 +56,10 @@ void MyDeque<T>::addLast(const T &val) {
     last = std::shared_ptr<Node>(new Node(val));
     if (isEmpty())
         first = last;
-    else
+    else {
         old_last->next = last;
+        last->prev = old_last;
+    }
     ++qsize;
 }
 
@@ -70,13 +80,12 @@ T MyDeque<T>::removeLast() {
     if (isEmpty())
         throw std::out_of_range("Cannot remove on an empty deque");
     T val = last->val;
+    last = last->prev;
+    if (qsize == 1)
+        first = last;
     --qsize;
-    last = first;
-    for (int i = qsize; i > 1; --i)
-        last = last->next;
     return val;
 }
-
 
 
 #endif //DEQUE_RANDOMQUE_MYDEQUE_H
