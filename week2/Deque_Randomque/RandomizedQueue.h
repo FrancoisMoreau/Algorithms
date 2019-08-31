@@ -20,14 +20,10 @@ int get_random(int t) {
 template <typename T>
 class RandomizedQueue {
 public:
-    RandomizedQueue() : first(nullptr), first_val(nullptr), last_val(nullptr), cap(nullptr) { }
+    RandomizedQueue() : first(nullptr), first_free(nullptr), cap(nullptr) { }
     bool isEmpty() const { return capacity() == 0; }
-    int size() const {
-        if (first_val)
-            return last_val - first_val + 1;
-        else
-            return 0; }
-    int capacity() const { return cap - first; } 
+    int size() const { return first_free - first + 1;}
+    int capacity() const { return cap - first; }
     void enque(const T &);
     T dequeue();
     ~ RandomizedQueue();
@@ -38,8 +34,7 @@ private:
     void free();
     void reallocate();
     T *first;
-    T *first_val;
-    T *last_val;
+    T *first_free;
     T *cap;
 };
 
@@ -49,8 +44,8 @@ std::allocator<T> RandomizedQueue<T>::alloc;
 template <typename T>
 void RandomizedQueue<T>::free() {
     if (first) {
-        for (auto p = last_val; p >= first; )
-            alloc.destroy(p--);
+        for (auto p = first_free; p >= first; )
+            alloc.destroy(--p);
         alloc.deallocate(first, cap - first);
     }
 }
@@ -64,13 +59,12 @@ template <typename T>
 void RandomizedQueue<T>::alloc_n_move(size_t new_cap) {
     auto new_data = alloc.allocate(new_cap);
     auto dest = new_data;
-    auto first_val_inc = first_val;
-    size_t i = 0;
-    for (; i != size(); ++i)
+    auto first_val_inc = first;
+    for (size_t i = 0; i != size(); ++i)
         alloc.construct(dest++, std::move(*first_val_inc++));
     free();
-    first = first_val = new_data;
-    last_val = first_val + i;
+    first = new_data;
+    first_free = first_val_inc;
     cap = first + new_cap;
 }
 
@@ -83,16 +77,19 @@ void RandomizedQueue<T>::reallocate() {
 template <typename T>
 void RandomizedQueue<T>::enque(const T &val) {
     chk_n_alloc();
-    alloc.construct(last_val++, val);
+    alloc.construct(first_free++, val);
 }
 
 template <typename T>
 T RandomizedQueue<T>::dequeue() {
+    if (size() == 0)
+        throw std::out_of_range("Cannot dequeue on empty queue");
     int range = size() - 1;
     int del_idx = get_random(range);
-    int pop_val = *(first_val + del_idx);
-    *(first_val + del_idx) = *(last_val);
-    alloc.destroy(last_val--);
+    int pop_val = *(first + del_idx);
+    auto old_first_free = first_free;
+    *(first + del_idx) = *(--first_free);
+    alloc.destroy(old_first_free);
     return del_idx;
 }
 
