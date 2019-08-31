@@ -22,14 +22,18 @@ class RandomizedQueue {
 public:
     RandomizedQueue() : first(nullptr), first_val(nullptr), last_val(nullptr), cap(nullptr) { }
     bool isEmpty() const { return capacity() == 0; }
-    int size() const { return last_val - first_val + 1; }
+    int size() const {
+        if (first_val)
+            return last_val - first_val + 1;
+        else
+            return 0; }
     int capacity() const { return cap - first; } 
     void enque(const T &);
     T dequeue();
     ~ RandomizedQueue();
 private:
     static std::allocator<T> alloc;
-    void chk_n_alloc() { if (last_val == cap) reallocate(); }
+    void chk_n_alloc() { if (size() == capacity()) reallocate(); }
     void alloc_n_move(size_t new_cap);
     void free();
     void reallocate();
@@ -61,11 +65,12 @@ void RandomizedQueue<T>::alloc_n_move(size_t new_cap) {
     auto new_data = alloc.allocate(new_cap);
     auto dest = new_data;
     auto first_val_inc = first_val;
-    for (size_t i = 0; i != size(); ++i)
+    size_t i = 0;
+    for (; i != size(); ++i)
         alloc.construct(dest++, std::move(*first_val_inc++));
     free();
     first = first_val = new_data;
-    last_val = --first_val_inc;
+    last_val = first_val + i;
     cap = first + new_cap;
 }
 
@@ -78,7 +83,7 @@ void RandomizedQueue<T>::reallocate() {
 template <typename T>
 void RandomizedQueue<T>::enque(const T &val) {
     chk_n_alloc();
-    alloc.constrct(last_val++, val);
+    alloc.construct(last_val++, val);
 }
 
 template <typename T>
