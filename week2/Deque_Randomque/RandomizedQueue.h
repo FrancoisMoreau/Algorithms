@@ -22,7 +22,7 @@ class RandomizedQueue {
 public:
     RandomizedQueue() : first(nullptr), first_free(nullptr), cap(nullptr) { }
     bool isEmpty() const { return capacity() == 0; }
-    int size() const { return first_free - first + 1;}
+    int size() const { return first_free - first;}
     int capacity() const { return cap - first; }
     void enque(const T &);
     T dequeue();
@@ -90,7 +90,7 @@ T RandomizedQueue<T>::dequeue() {
     auto old_first_free = first_free;
     *(first + del_idx) = *(--first_free);
     alloc.destroy(old_first_free);
-    return del_idx;
+    return pop_val;
 }
 
 
