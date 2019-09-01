@@ -3,4 +3,4 @@ project(PriorityQueue)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(PriorityQueue main.cpp MaxPQ.cpp MaxPQ.h)
+add_executable(PriorityQueue main.cpp MaxPQ.cpp MaxPQ.h HeapSort.h)
