@@ -28,9 +28,15 @@ int main() {
     }
 
 //    cout << endl;
-    std::sort(keysvec.begin(), keysvec.end());
+//    std::sort(keysvec.begin(), keysvec.end());
+    cout << "input order: ";
     for (auto &i : keysvec)
         cout << i  << " ";
+    cout << endl;
+    cout << "sorted order: ";
+    std::sort(keysvec.begin(), keysvec.end());
+    for (auto &i : keysvec)
+        cout << i << " ";
     cout << endl;
 
     cout << "largest key: " << binarytree.max() << endl;
@@ -40,6 +46,16 @@ int main() {
     cout << "size for tree: " << binarytree.size() << endl;
     cout << "rank for largest: " << binarytree.rank(binarytree.max()) << endl;
 
+    cout << "BST => Queue: \n";
+    std::queue<int> q = binarytree.keys();
+    int q_size = q.size();
+    for (int i = 0; i < q_size; ++i) {
+        cout << q.front() << " ";
+        q.pop();
+    }
+    cout << "\nkey at rank 2: " << binarytree.select(2) << endl;
+
+    cout << "\nceiling for smallest + 1: " << binarytree.ceiling(binarytree.min() + 1) << endl;
     std::cout << "\n\nHello, World!" << std::endl;
     return 0;
 }

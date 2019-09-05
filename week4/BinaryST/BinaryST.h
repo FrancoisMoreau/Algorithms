@@ -6,6 +6,7 @@
 #define BINARYST_BINARYST_H
 
 #include <memory>
+#include <queue>
 
 
 template <typename Key, typename Value>
@@ -20,6 +21,9 @@ public:
     Key ceiling(Key key);
     int size() { return size(root); };
     int rank(Key key) { return rank(root, key); };
+    std::queue<Key> keys();
+    Key select(int k);
+
     
 
 private:
@@ -33,8 +37,11 @@ private:
     std::shared_ptr<Node> root;
     std::shared_ptr<Node> put(std::shared_ptr<Node> x, Key key, Value val);
     std::shared_ptr<Node> floor(std::shared_ptr<Node> x, Key key);
+    std::shared_ptr<Node> ceiling(std::shared_ptr<Node> x, Key key);
     int size(std::shared_ptr<Node> x);
     int rank(std::shared_ptr<Node> x, Key key);
+    void inorder(std::shared_ptr<Node> x, std::queue<Key> &q);
+    std::shared_ptr<Node> select(std::shared_ptr<Node> x, int k);
 
 };
 
@@ -103,6 +110,27 @@ BST<Key, Value>::floor(std::shared_ptr<BST<Key, Value>::Node> x, Key key) {
 }
 
 template <typename Key, typename Value>
+Key BST<Key, Value>::ceiling(Key key) {
+    std::shared_ptr<Node> x = ceiling(root, key);
+    if (!x)
+        throw std::out_of_range("No ceiling for the key requested");
+    return x->key;
+}
+
+template <typename Key, typename Value>
+std::shared_ptr<typename BST<Key, Value>::Node>
+BST<Key, Value>::ceiling(std::shared_ptr<BST<Key, Value>::Node> x, Key key) {
+    if (!x) return std::shared_ptr<Node>();
+
+    if (key == x->key) return x;
+    else if (key > x->key) return ceiling(x->right, key);
+
+    std::shared_ptr<Node> t = ceiling(x->left, key);
+    if (t) return t;
+    else return x;
+}
+
+template <typename Key, typename Value>
 int BST<Key, Value>::size(std::shared_ptr<Node> x) {
     if (!x) return 0;
     return x->count;
@@ -115,5 +143,37 @@ int BST<Key, Value>::rank(std::shared_ptr<BST<Key, Value>::Node> x, Key key) {
     else if (x->key < key) return 1 + size(x->left) + rank(x->right, key);
     else return size(x->left);
 }
+
+template <typename Key, typename Value>
+std::queue<Key> BST<Key, Value>::keys() {
+    std::queue<Key> q;
+    inorder(root, q);
+    return q;
+}
+
+template <typename Key, typename Value>
+void BST<Key, Value>::inorder(std::shared_ptr<BST<Key, Value>::Node> x, std::queue<Key> &q) {
+    if (!x) return;
+    inorder(x->left, q);
+    q.push(x->key);
+    inorder(x->right, q);
+}
+
+template <typename Key, typename Value>
+Key BST<Key, Value>::select(int k) {
+    return select(root, k)->key;
+}
+
+template <typename Key, typename Value>
+std::shared_ptr<typename BST<Key, Value>::Node>
+BST<Key, Value>::select(std::shared_ptr<BST<Key, Value>::Node> x, int k) {
+    if (!x)
+        throw std::out_of_range("No key ranked as requested");
+    int t = size(x->left);
+    if (t < k) return select(x->right, k - t - 1);
+    else if (t > k) return select(x->left, k);
+    else return x;
+}
+
 
 #endif //BINARYST_BINARYST_H
