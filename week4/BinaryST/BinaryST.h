@@ -12,19 +12,18 @@
 template <typename Key, typename Value>
 class BST {
 public:
-    void put(Key key, Value val);
+    void put(Key key, Value val) { root = put(root, key, val); }
     Value get(Key key);
-    Key min();
-    Key max();
-    void erase(Key key);
+    Key min() { return min(root)->key; }
+    Key max() { return max(root)->key; }
+    void erase(Key key) { root = erase(root, key); }
     Key floor(Key key);
     Key ceiling(Key key);
-    int size() { return size(root); };
-    int rank(Key key) { return rank(root, key); };
+    int size() { return size(root); }
+    int rank(Key key) { return rank(root, key); }
     std::queue<Key> keys();
-    Key select(int k);
-
-    
+    Key select(int k) { return select(root, k)->key; }
+    void delMin() { root = delMin(root); }
 
 private:
     struct Node {
@@ -38,10 +37,14 @@ private:
     std::shared_ptr<Node> put(std::shared_ptr<Node> x, Key key, Value val);
     std::shared_ptr<Node> floor(std::shared_ptr<Node> x, Key key);
     std::shared_ptr<Node> ceiling(std::shared_ptr<Node> x, Key key);
+    std::shared_ptr<Node> min(std::shared_ptr<Node> x) { return (x->left ? min(x->left) : x); }
+    std::shared_ptr<Node> max(std::shared_ptr<Node> x) { return (x->right ? max(x->right) : x); }
     int size(std::shared_ptr<Node> x);
     int rank(std::shared_ptr<Node> x, Key key);
     void inorder(std::shared_ptr<Node> x, std::queue<Key> &q);
     std::shared_ptr<Node> select(std::shared_ptr<Node> x, int k);
+    std::shared_ptr<Node> delMin(std::shared_ptr<Node> x);
+    std::shared_ptr<Node> erase(std::shared_ptr<Node> x, Key key);
 
 };
 
@@ -54,27 +57,6 @@ Value BST<Key, Value>::get(Key key) {
         else return x->val;
     }
     return Value();
-}
-
-template <typename Key, typename Value>
-Key BST<Key, Value>::min() {
-    std::shared_ptr<Node> x = root;
-    while (x->left)
-        x = x->left;
-    return x->key;
-}
-
-template <typename Key, typename Value>
-Key BST<Key, Value>::max() {
-    std::shared_ptr<Node> x = root;
-    while (x->right)
-        x = x->right;
-    return x->key;
-}
-
-template <typename Key, typename Value>
-void BST<Key, Value>::put(Key key, Value val) {
-    root = put(root, key, val);
 }
 
 template <typename Key, typename Value>
@@ -160,11 +142,6 @@ void BST<Key, Value>::inorder(std::shared_ptr<BST<Key, Value>::Node> x, std::que
 }
 
 template <typename Key, typename Value>
-Key BST<Key, Value>::select(int k) {
-    return select(root, k)->key;
-}
-
-template <typename Key, typename Value>
 std::shared_ptr<typename BST<Key, Value>::Node>
 BST<Key, Value>::select(std::shared_ptr<BST<Key, Value>::Node> x, int k) {
     if (!x)
@@ -173,6 +150,34 @@ BST<Key, Value>::select(std::shared_ptr<BST<Key, Value>::Node> x, int k) {
     if (t < k) return select(x->right, k - t - 1);
     else if (t > k) return select(x->left, k);
     else return x;
+}
+
+template <typename Key, typename Value>
+std::shared_ptr<typename BST<Key, Value>::Node>
+BST<Key, Value>::delMin(std::shared_ptr<BST<Key, Value>::Node> x) {
+    if (!(x->left)) return  x->right;
+    x->left = delMin(x->left);
+    x->count = 1 + size(x->left) + size(x->right);
+    return x;
+}
+
+template <typename Key, typename Value>
+std::shared_ptr<typename BST<Key, Value>::Node>
+BST<Key, Value>::erase(std::shared_ptr<BST<Key, Value>::Node> x, Key key) {
+    if (!x) throw std::out_of_range("cannot erase a key that does not exist");
+    if (x->key < key) x->right = erase(x->right, key);
+    else if (key < x->key) x->left = erase(x->left, key);
+    else {
+        if (!(x->right)) return x->left;
+        if (!(x->left)) return x->right;
+
+        std::shared_ptr<Node> t = x;
+        x->val = min(t->right)->val;
+        x->left = t->left;
+        x->right = delMin(t->right);
+    }
+    x->count = size(x->left) + size(x->right) + 1;
+    return x;
 }
 
 
