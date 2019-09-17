@@ -8,7 +8,9 @@ size_t NB_Partion(std::vector<int> &nuts, std::vector<char> &bolts, int idx, int
     for (int m = lo; m <= hi; ++m)
         if (bolts[m] - 'a' == key) matched_idx = m;
 
-    int i = lo - 1, j = hi + 1;
+    std::swap(bolts[lo], bolts[matched_idx]);
+
+    int i = lo, j = hi + 1;
     while (true) {
         while (bolts[++i]  - 'a' < key)
             if (i > hi) break;
@@ -19,7 +21,7 @@ size_t NB_Partion(std::vector<int> &nuts, std::vector<char> &bolts, int idx, int
         if (i >= j) break;
         std::swap(bolts[i], bolts[j]);
     }
-    std::swap(bolts[matched_idx], bolts[j]);
+    std::swap(bolts[lo], bolts[j]);
     return j;
 }
 
@@ -36,7 +38,7 @@ std::pair<int, int> find_interval(std::vector<int> &nuts, std::vector<char> &bol
 
 void NutsBolts(std::vector<int> &nuts, std::vector<char> &bolts, std::vector<size_t> &position) {
     int N = nuts.size() - 1;
-    for (int i = 0; i < N; ++i) {
+    for (int i = 0; i <= N; ++i) {
         std::pair<int, int> interval = find_interval(nuts, bolts, position, i);
         position[i] = NB_Partion(nuts, bolts, i, interval.first, interval.second);
 
