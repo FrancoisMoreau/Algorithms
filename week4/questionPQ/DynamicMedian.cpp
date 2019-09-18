@@ -52,7 +52,7 @@ void PriorityQueue::insert(int val) {
 }
 
 void PriorityQueue::sink(int key) {
-    while (2 * key < vec.size()) {
+    while (2 * key <= vec.size()) {
         int next = key * 2;
         int max_key = (next < vec.size() && cmp(vec[next], vec[next - 1])) ? next + 1 : next;
         if (cmp(vec[max_key - 1], vec[key - 1])) {
@@ -86,6 +86,10 @@ int DynamicMedian::median() const {
 }
 
 void DynamicMedian::insert(int val) {
+    if (isEmpty()) {
+        maxq.insert(val);
+        return;
+    }
     if (val <= median()) {
         if (maxq.size() != minq.size())
             minq.insert(maxq.delTop());
@@ -95,4 +99,15 @@ void DynamicMedian::insert(int val) {
         if (maxq.size() < minq.size())
             maxq.insert(minq.delTop());
     }
+}
+
+int DynamicMedian::delMid() {
+    if (isEmpty())
+        throw std::out_of_range("Cannot delete on an empty structure");
+    int rtn_val = maxq.delTop();
+    if (minq.size() > maxq.size()){
+        int temp = minq.delTop();
+        maxq.insert(temp);
+    }
+    return rtn_val;
 }

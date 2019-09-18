@@ -3,4 +3,4 @@ project(questionPQ)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(questionPQ main.cpp DynamicMedian.h DynamicMedian.cpp)
+add_executable(questionPQ main.cpp DynamicMedian.h DynamicMedian.cpp TaxicabNumber.cpp)

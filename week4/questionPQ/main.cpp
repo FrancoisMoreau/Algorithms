@@ -2,7 +2,7 @@
 #include <random>
 
 #include "DynamicMedian.h"
-
+#include "TaxicabNumber.h"
 
 using std::cout;
 using std::endl;
@@ -16,6 +16,7 @@ int get_random(int n) {
 }
 
 int main() {
+    cout << "Realization of my MaxPQ, MinPQ: " << endl;
     PriorityQueue maxq, minq([](int a, int b) { return a < b; });
     for (int i = 0; i < 20; ++i) {
         int key = get_random(20);
@@ -30,6 +31,21 @@ int main() {
     while (!minq.isEmpty())
         cout << minq.delTop() << " ";
     cout << endl;
+
+    cout << "\nDynamic Median: \n";
+    DynamicMedian dymid;
+    for (int i = 0; i < 20; ++i) {
+        dymid.insert(i);
+    }
+    while (!dymid.isEmpty()) {
+        cout << dymid.delMid() << " ";
+    }
+    cout << endl;
+
+
+    cout << "Taxicab numbers: \n";
+    TaxicabNumber tn(2, 3);
+    print(cout, tn);
 
     return 0;
 }

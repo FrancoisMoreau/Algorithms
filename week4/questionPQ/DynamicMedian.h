@@ -47,6 +47,7 @@ private:
 
 class DynamicMedian {
 public:
+    DynamicMedian() = default;
     void insert(int val);
     int median() const;
     int delMid();
