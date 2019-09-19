@@ -42,10 +42,10 @@ int main() {
     }
     cout << endl;
 
+    cout << "\n\nTaxicab numbers: \n";
 
-    cout << "Taxicab numbers: \n";
-    TaxicabNumber tn(2, 3);
-    print(cout, tn);
+    std::vector<TaxicabNumber> vec_tn;
+    find_taxicab_numbers(35, vec_tn);
 
     return 0;
 }

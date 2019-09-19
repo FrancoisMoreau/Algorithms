@@ -11,13 +11,17 @@
 
 class TaxicabNumber;
 
-std::ostream &print(std::ostream &out, const TaxicabNumber &tn);
+std::ostream &print(std::ostream &out, const TaxicabNumber &lhs, const TaxicabNumber &rhs);
+bool operator<(const TaxicabNumber &lhs, const TaxicabNumber &rhs);
+bool operator==(const TaxicabNumber &lhs, const TaxicabNumber &rhs);
 
 class TaxicabNumber {
-    friend std::ostream &print(std::ostream &out, const TaxicabNumber &tn);
+    friend bool operator<(const TaxicabNumber &lhs, const TaxicabNumber &rhs);
+    friend bool operator==(const TaxicabNumber &lhs, const TaxicabNumber &rhs);
 public:
     TaxicabNumber(int a, int b) : a(a), b(b), cube_sum(a * a * a + b * b * b) {}
-private:
+    TaxicabNumber(const TaxicabNumber &rhs) : a(rhs.a), b(rhs.b), cube_sum(rhs.cube_sum) {}
+    TaxicabNumber &operator=(const TaxicabNumber &rhs);
     int a, b;
     int cube_sum;
 };
