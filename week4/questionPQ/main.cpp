@@ -15,6 +15,22 @@ int get_random(int n) {
     return dice_roll;
 }
 
+void nextPermutation(std::vector<int> &nums) {
+    if (nums.size() == 1)
+        return;
+    int biggest = nums.back();
+    std::vector<int> tail;
+    auto r_iter = nums.rbegin();
+    for (; r_iter != nums.rend(); ++r_iter) {
+        tail.push_back(*r_iter);
+        if (biggest > *r_iter) break;
+    }
+    std::sort(tail.begin(), tail.end());
+    auto it_first = std::upper_bound(tail.begin(), tail.end(), *r_iter);
+    std::swap(*it_first, *tail.begin());
+    std::copy(tail.begin(), tail.end(), r_iter.base() - 1);
+}
+
 int main() {
     cout << "Realization of my MaxPQ, MinPQ: " << endl;
     PriorityQueue maxq, minq([](int a, int b) { return a < b; });
@@ -46,6 +62,14 @@ int main() {
 
     std::vector<TaxicabNumber> vec_tn;
     find_taxicab_numbers(35, vec_tn);
+
+
+    cout << "\n\nProblem 31: Next Permutation: \n";
+    std::vector<int> pervec{1, 1};
+    nextPermutation(pervec);
+    for (auto &i : pervec)
+        cout << i << " ";
+    cout << endl;
 
     return 0;
 }
