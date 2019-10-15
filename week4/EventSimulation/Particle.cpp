@@ -12,14 +12,15 @@ int input_cast(const double &num) {
 }
 
 std::istream &read(std::istream &is, Particle &particle) {
-    double rx, ry, vx, vy, radius;
-    is >> rx >> ry >> vx >> vy >> radius >> particle.mass
+    double rx, ry, vx, vy, radius, mass;
+    is >> rx >> ry >> vx >> vy >> radius >> mass
     >> particle.r >> particle.g >> particle.b;
     particle.rx = input_cast(rx);
     particle.ry = input_cast(ry);
     particle.vx = input_cast(vx);
     particle.vy = input_cast(vy);
-    particle.radius = input_cast(radius);
+    particle.radius = input_cast(radius) ;
+    particle.mass = static_cast<int>(mass);
     return is;
 }
 

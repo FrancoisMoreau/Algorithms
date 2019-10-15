@@ -19,7 +19,8 @@ public:
         if (a) countA = a->get_count();
         if (b) countB = b->get_count();
     }
-//    Event(const Event &rhs) : time(rhs.time), a(rhs.a), b(rhs.b), countA(rhs.countA), countB(rhs.countB) {}
+    Event(const Event &rhs) : time(rhs.time), a(rhs.a), b(rhs.b), countA(rhs.countA), countB(rhs.countB) {}
+    Event &operator=(const Event &rhs);
     bool operator<(const Event &rhs) const {
         return time < rhs.time;
     }

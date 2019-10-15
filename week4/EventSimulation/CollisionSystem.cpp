@@ -4,6 +4,15 @@
 
 #include "CollisionSystem.h"
 
+Event &Event::operator=(const Event &rhs) {
+    time = rhs.time;
+    a = rhs.a;
+    b = rhs.b;
+    countA = rhs.countA;
+    countB = rhs.countB;
+    return *this;
+}
+
 bool Event::isValid() {
     if (a == nullptr && b == nullptr) return false;
     if (a != nullptr && a->get_count() != countA) return false;
@@ -15,10 +24,13 @@ void CollisionSystem::predict(Particle *a) {
     if (a == nullptr) return;
     for (int i = 0; i < particles.size(); ++i) {
         double dt = a->timeToHit(particles[i]);
-        pq.push(Event(t + dt, a, &particles[i]));
+        if (dt > 0) pq.push(Event(t + dt, a, &particles[i]));
     }
-    pq.push(Event(t + a->timeToHitVerticalWall(), a, nullptr));
-    pq.push(Event(t + a->timeToHitHorizontalWall(), nullptr, a));
+    if (a->timeToHitHorizontalWall() > 0)
+        pq.push(Event(t + a->timeToHitHorizontalWall(), nullptr, a));
+    if (a->timeToHitVerticalWall() > 0)
+        pq.push(Event(t + a->timeToHitVerticalWall(), a, nullptr));
+
 }
 
 void CollisionSystem::simulate() {
@@ -27,6 +39,12 @@ void CollisionSystem::simulate() {
     pq.push(Event(0, nullptr, nullptr));
 
     cv::namedWindow("Simulation", cv::WINDOW_AUTOSIZE);
+
+//    while (!pq.empty()) {
+//        Event event = pq.top();
+//        pq.pop();
+//        printf("time: %f, %d, %d\n", event.time, event.countA, event.countB);
+//    }
 
     while (!pq.empty()) {
         Event event = pq.top();
@@ -39,14 +57,15 @@ void CollisionSystem::simulate() {
         cv::Mat img(1000, 1000, CV_8UC3, cv::Scalar(255, 255, 255));
 
         for (auto &i : particles) {
-            i.move(event.time - t);
             i.draw(img);
+            i.move(event.time - t);
         }
         cv::imshow("Simulation", img);
-        char c = (char) cv::waitKey(100);
+        char c = (char) cv::waitKey(10);
         if (c == 27) break;
 
         t = event.time;
+        printf("t: %f\n", t);
 
         if (a != nullptr && b != nullptr) a->bounceOff(*b);
         else if (a != nullptr && b == nullptr) a->bounceOffVerticalWall();
@@ -57,4 +76,5 @@ void CollisionSystem::simulate() {
         predict(a);
         predict(b);
     }
+
 }
