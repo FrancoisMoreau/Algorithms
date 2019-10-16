@@ -3,24 +3,32 @@
 //
 
 #include "Particle.h"
+#include <cmath>
 
 const int Infinity = -1;
 const int WallSize = 1000;
 
-int input_cast(const double &num) {
-    return static_cast<int>(num * 1000);
+double input_cast(const std::string &s) {
+    auto idx = s.find("E-");
+    if (idx == std::string::npos) {
+        return 1000 * std::stod(s);
+    } else {
+        double num = std::stod(s.substr(0, idx));
+        int tens = std::stoi(s.substr(idx + 2));
+        return 1000 * num / pow(10, tens);
+    }
 }
 
 std::istream &read(std::istream &is, Particle &particle) {
-    double rx, ry, vx, vy, radius, mass;
+    std::string rx, ry, vx, vy, radius, mass;
     is >> rx >> ry >> vx >> vy >> radius >> mass
     >> particle.r >> particle.g >> particle.b;
     particle.rx = input_cast(rx);
     particle.ry = input_cast(ry);
     particle.vx = input_cast(vx);
     particle.vy = input_cast(vy);
-    particle.radius = input_cast(radius) ;
-    particle.mass = static_cast<int>(mass);
+    particle.radius = int(input_cast(radius));
+    particle.mass = input_cast(mass) / 1000;
     return is;
 }
 
@@ -42,12 +50,12 @@ Particle &Particle::operator=(const Particle &rhs) {
 }
 
 void Particle::move(double dt) {
-    rx += static_cast<int>(dt * vx);
-    ry += static_cast<int>(dt * vy);
+    rx += (dt * vx);
+    ry += (dt * vy);
 }
 
 void Particle::draw(cv::Mat &img) {
-    cv::Point center(rx, ry);
+    cv::Point center(static_cast<int>(rx), static_cast<int>(ry));
     cv::Scalar color(b, g, r);
     cv::circle(img, center, radius, color, -1, cv::LINE_AA);
 }

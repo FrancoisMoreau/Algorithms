@@ -40,12 +40,6 @@ void CollisionSystem::simulate() {
 
     cv::namedWindow("Simulation", cv::WINDOW_AUTOSIZE);
 
-//    while (!pq.empty()) {
-//        Event event = pq.top();
-//        pq.pop();
-//        printf("time: %f, %d, %d\n", event.time, event.countA, event.countB);
-//    }
-
     while (!pq.empty()) {
         Event event = pq.top();
         pq.pop();
@@ -61,11 +55,11 @@ void CollisionSystem::simulate() {
             i.move(event.time - t);
         }
         cv::imshow("Simulation", img);
-        char c = (char) cv::waitKey(10);
+        char c = (char) cv::waitKey(1);
         if (c == 27) break;
 
         t = event.time;
-        printf("t: %f\n", t);
+//        printf("t: %f\n", t);
 
         if (a != nullptr && b != nullptr) a->bounceOff(*b);
         else if (a != nullptr && b == nullptr) a->bounceOffVerticalWall();

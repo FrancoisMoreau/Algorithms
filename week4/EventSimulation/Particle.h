@@ -36,10 +36,10 @@ public:
     void bounceOffVerticalWall();
     void bounceOffHorizontalWall();
 private:
-    int rx = 0, ry = 0;
+    double rx = 0, ry = 0;
     double vx = 0, vy = 0;
     int radius = 100;
-    int mass = 100;
+    double mass = 100;
     int r = 0, g = 0, b = 0;
     int count = 0;
 };
