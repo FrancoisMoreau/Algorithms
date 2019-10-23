@@ -3,4 +3,10 @@ project(Undirectedgraph)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Undirectedgraph main.cpp Udgraph.cpp)
+set(SRC main.cpp
+        Udgraph.cpp
+        DepthFirstPath.cpp
+        BreathFirstPath.cpp
+        ConnectedComponents.cpp)
+
+add_executable(Undirectedgraph ${SRC})

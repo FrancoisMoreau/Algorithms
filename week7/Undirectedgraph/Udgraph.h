@@ -18,6 +18,7 @@ public:
     int V() { return adj_list.size(); }
     int E() { return edges; };
     std::string toString();
+    std::vector<int> &adj(int v) { return adj_list[v]; }
 
 private:
     std::vector<std::vector<int>> adj_list;
