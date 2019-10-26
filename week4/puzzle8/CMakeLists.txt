@@ -3,6 +3,6 @@ project(puzzle8)
 
 set(CMAKE_CXX_STANDARD 14)
 
-set(SRC main.cpp Board.cpp)
+set(SRC main.cpp Board.cpp Solver.cpp)
 
 add_executable(puzzle8 ${SRC})

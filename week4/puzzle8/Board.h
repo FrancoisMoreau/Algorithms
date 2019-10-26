@@ -6,22 +6,28 @@
 #define PUZZLE8_BOARD_H
 
 #include <string>
+#include <vector>
 #include <cstddef>
 
 class Board {
 public:
     Board() = delete;
-    Board(int *tiles, const int size) : data(tiles), N(size) {}
+    Board(int *tiles, int size);
     std::string toString();
-    int hamming();
-    int manhattan();
-    bool isGoal();
+    int hamming() const { return hamming_dis; };
+    int manhattan() const { return manhattan_dis; };
+    bool isGoal() { return hamming_dis == 0; };
     bool equals(const Board &rhs);
+    std::vector<Board> neighbors();
 
 
 private:
-    int *data;
-    int N;
+    std::pair<int, int> find0();
+    void calculate_hamming();
+    void calculate_manhattan();
+    std::vector<std::vector<int>> data;
+    int N = 0;
+    int hamming_dis = 0, manhattan_dis = 0;
 };
 
 
