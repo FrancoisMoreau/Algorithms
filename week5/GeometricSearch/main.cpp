@@ -28,16 +28,14 @@ int main() {
     cout << "\n\n\nSweep Line Algorithm: \n";
     cv::Mat img(Height, Width, CV_8UC3, cv::Scalar(255, 255, 255));
     vector<SLsegments> linesegs;
-    vector<SLpoints> endpoints;
-    generateSegments(endpoints, linesegs);
-    for (auto &i : endpoints)
-        i.draw(img);
-    for (auto &i : linesegs) {
-        i.draw(img);
-//        cout << i.toString()  << endl;
-    }
+    vector<SLpoints> horizontal_points, vertical_points;
+    generateSegments(horizontal_points, vertical_points, linesegs);
+    draw_pic(horizontal_points, img);
+    draw_pic(vertical_points, img);
+    draw_pic(linesegs, img);
 
-    std::vector<InterPoint> intersectionPts =  sweepline(endpoints);
+
+    std::vector<InterPoint> intersectionPts =  sweepline(horizontal_points, vertical_points);
     for (auto &i : intersectionPts)
         i.draw(img);
 
