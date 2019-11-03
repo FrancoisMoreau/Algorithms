@@ -17,12 +17,12 @@ namespace kd_tree {
 
     void Point2D::draw(cv::Mat &img) const {
         cv::Point p(x, y);
-        cv::circle(img, p, 5, cv::Scalar(0, 0, 0), -1, cv::LINE_AA);
+        cv::circle(img, p, 1, cv::Scalar(0, 0, 0), -1, cv::LINE_AA);
     }
 
     void inPoint2D::draw(cv::Mat &img) const {
         cv::Point p(get_x(), get_y());
-        cv::circle(img, p, 5, cv::Scalar(0, 0, 255), -1, cv::LINE_AA);
+        cv::circle(img, p, 1, cv::Scalar(0, 0, 255), -1, cv::LINE_AA);
     }
 
     std::string Point2D::toString() {
@@ -75,7 +75,7 @@ namespace kd_tree {
     }
 
     void RectHV::draw(cv::Mat &img) {
-        cv::rectangle(img, cv::Point(xmin, ymin), cv::Point(xmax, ymax), cv::Scalar(0, 0, 255), 5);
+        cv::rectangle(img, cv::Point(xmin, ymin), cv::Point(xmax, ymax), cv::Scalar(0, 0, 255), 1);
     }
 
     std::string RectHV::ToString() {

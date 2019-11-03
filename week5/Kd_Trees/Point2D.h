@@ -9,7 +9,6 @@
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 
-
 namespace kd_tree {
     class Point2D {
     public:

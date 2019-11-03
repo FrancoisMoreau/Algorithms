@@ -10,11 +10,10 @@ namespace kd_tree {
     }
 
     bool PointSET::contains(const Point2D &p) {
-        for (auto &i : pset) {
-            if (i == p)
-                return true;
-        }
-        return false;
+        if (pset.find(p) != pset.end())
+            return true;
+        else
+            return false;
     }
 
     void PointSET::draw(cv::Mat &img) {
