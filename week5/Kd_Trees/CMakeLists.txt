@@ -10,7 +10,11 @@ include_directories(
         ${OpenCV_INCLUDE_DIRS}
         ${PROJECT_SOURCE_DIR})
 
-SET(SRC main.cpp Point2D.cpp PointSET.cpp KdTree.cpp)
+SET(SRC main.cpp
+        Point2D.cpp
+        PointSET.cpp
+        KdTree.cpp
+        KdTreeVisualizer.cpp)
 
 add_executable(Kd_Trees ${SRC})
 

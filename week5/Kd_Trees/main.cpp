@@ -38,17 +38,23 @@ int main() {
     rec.draw(img);
     pset.draw(img);
 
-    cv::namedWindow("Kd_Trees", cv::WINDOW_AUTOSIZE);
-    cv::imshow("Kd_Trees", img);
+    cv::namedWindow("PointSET", cv::WINDOW_AUTOSIZE);
+    cv::imshow("PointSET", img);
     cv::waitKey(0);
 
     std::set<kd_tree::inPoint2D> in_pts = pset.range(rec);
     for (auto &i : in_pts)
         i.draw(img);
 
-    cv::imshow("Kd_Trees", img);
+    cv::imshow("PointSET", img);
     cv::waitKey(0);
 
-    std::cout << "Hello, World!" << std::endl;
+    //Kd-tree test
+    img = cv::Scalar::all(255);
+    cv::namedWindow("Kd_Tree", cv::WINDOW_AUTOSIZE);
+    cv::imshow("Kd_Tree", img);
+    cv::waitKey(0);
+
+
     return 0;
 }

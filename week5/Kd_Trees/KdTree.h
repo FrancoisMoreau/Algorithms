@@ -20,12 +20,14 @@ namespace kd_tree {
     class KdTree {
     public:
         KdTree() = default;
+        KdTree(cv::Mat *img) : img_ptr(img) {}
         void put(const Point2D &pt) { root = put(root, pt, 0); };
     private:
         std::shared_ptr<Node> put(std::shared_ptr<Node> x, const Point2D &pt, int level);
         std::shared_ptr<Node> put_even(std::shared_ptr<Node> x, const Point2D &pt, int level);
         std::shared_ptr<Node> put_odd(std::shared_ptr<Node> x, const Point2D &pt, int level);
         std::shared_ptr<Node> root;
+        cv::Mat *img_ptr = nullptr;
     };
 }
 

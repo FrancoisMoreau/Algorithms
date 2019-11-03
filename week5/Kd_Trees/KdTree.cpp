@@ -21,6 +21,8 @@ namespace kd_tree {
         else if (pt.get_x() > x->val.get_x())
             x->right = put(x->right, pt, level + 1);
 
+//        if (img_ptr) cv::line(*img_ptr, )
+
         return x;
     }
 
