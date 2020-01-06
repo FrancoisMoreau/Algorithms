@@ -16,6 +16,7 @@ public:
 
 private:
     void dfs(Udgraph *G, int v);
+    void non_recursive_dfs(Udgraph *G, int v);
     int s;
     std::vector<int> edgeTo;
     std::vector<bool> marked;
