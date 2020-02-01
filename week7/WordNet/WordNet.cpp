@@ -20,12 +20,16 @@ WordNet::WordNet(const std::string &synsets, const std::string &hypernyms_arg) {
 int WordNet::csv_parser(std::istream &is, std::vector<std::string> &noun) {
     std::string line;
     while(getline(is, line)) {
-        noun.push_back(line.substr(line.find(',') + 1, line.rfind(',') - line.find(',') - 1));
+        std::string temp = line.substr(line.find(',') + 1);
+        noun.push_back(temp.substr(0, temp.find(',')));
         int line_no = std::stoi(line.substr(0, line.find(',')));
         std::istringstream word_set(noun.back());
         std::string parsed_word;
         while (getline(word_set, parsed_word, ' ')) {
-            word_map.insert({parsed_word, line_no});
+            if (word_map.find(parsed_word) == word_map.end())
+                word_map[parsed_word] = std::vector<int>{line_no};
+            else
+                word_map[parsed_word].push_back(line_no);
         }
     }
     return 0;
@@ -51,8 +55,9 @@ int WordNet::distance(const std::string &nounA, const std::string &nounB) {
         if (!isNoun(nounB)) printf("No %s!\n", nounB.c_str());
         throw std::invalid_argument("No this noun is the WordNet!\n");
     }
-    int idx_A = word_map[nounA];
-    int idx_B = word_map[nounB];
+    std::vector<int> &idx_A = word_map[nounA];
+    std::vector<int> &idx_B = word_map[nounB];
     SAP shortest_path(this);
+
     return shortest_path.length(idx_A, idx_B);
 }
