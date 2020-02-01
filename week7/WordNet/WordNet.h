@@ -13,7 +13,7 @@
 #include "Digraph.h"
 #include "SAP.h"
 
-class WordNet : Digraph {
+class WordNet : public Digraph {
 public:
     WordNet(const std::string &synsets, const std::string &hypernyms);
     std::vector<std::string>::const_iterator cbegin() const { return all_nouns.cbegin(); }
@@ -26,7 +26,7 @@ private:
     int csv_parser(std::istream &is, std::vector<std::string> &noun);
     int csv_parser(std::istream &is, std::vector<std::vector<int>> &hypernym_arg);
     std::vector<std::string> all_nouns;
-    std::map<std::string, int> word_map;
+    std::map<std::string, std::vector<int>> word_map;
 //    std::vector<std::vector<int>> hypernyms;
 
 };
